@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { connectDatabase } from './config/database.js';
+import { getApiBaseUrl, getApiPort } from './config/api.js';
 import usersRouter from './routes/users.js';
 import teamsRouter from './routes/teams.js';
 import activitiesRouter from './routes/activities.js';
@@ -12,8 +13,7 @@ import workoutsRouter from './routes/workouts.js';
 dotenv.config();
 
 const app = express();
-const port = Number(process.env.PORT) || 8000;
-
+const port = getApiPort();
 app.use(cors());
 app.use(express.json());
 
@@ -49,6 +49,7 @@ async function startServer() {
     await connectDatabase();
     app.listen(port, () => {
       console.log(`Octofit Tracker API running on port ${port}`);
+      console.log(`API base URL: ${getApiBaseUrl()}`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
