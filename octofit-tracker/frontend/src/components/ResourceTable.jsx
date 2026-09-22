@@ -7,19 +7,19 @@ function displayValue(value) {
   return value ?? '—'
 }
 
-export default function ResourceTable({ resource, title, columns }) {
+export default function ResourceTable({ resource, endpoint, title, columns }) {
   const [rows, setRows] = useState([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let active = true
-    fetchCollection(resource)
+    fetchCollection(resource, endpoint)
       .then((data) => active && setRows(data))
       .catch((requestError) => active && setError(requestError.message))
       .finally(() => active && setLoading(false))
     return () => { active = false }
-  }, [resource])
+  }, [resource, endpoint])
 
   return (
     <section>
