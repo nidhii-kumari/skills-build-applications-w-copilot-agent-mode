@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 
-const connectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
+export function getConnectionString() {
+  return process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
+}
 
 export async function connectDatabase() {
   try {
-    await mongoose.connect(connectionString);
+    await mongoose.connect(getConnectionString());
     console.log('Connected to octofit_db');
     return mongoose.connection;
   } catch (error) {
