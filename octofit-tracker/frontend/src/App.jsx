@@ -1,121 +1,71 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { NavLink, Route, Routes } from 'react-router-dom'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import Users from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const links = [
+  ['/', 'Dashboard'],
+  ['/users', 'Users'],
+  ['/teams', 'Teams'],
+  ['/activities', 'Activities'],
+  ['/leaderboard', 'Leaderboard'],
+  ['/workouts', 'Workouts'],
+]
 
+function Dashboard() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="dashboard">
+      <h1>OctoFit Tracker</h1>
+      <p className="lead">Track progress, connect with your team, and keep moving.</p>
+      <div className="row g-4 mt-3">
+        {links.slice(1).map(([path, label]) => (
+          <div className="col-sm-6 col-lg-3" key={path}>
+            <NavLink className="card dashboard-card h-100 text-decoration-none" to={path}>
+              <div className="card-body">
+                <h2 className="h5">{label}</h2>
+                <span className="text-secondary">View {label.toLowerCase()}</span>
+              </div>
+            </NavLink>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+function App() {
+  return (
+    <div className="app-shell">
+      <header className="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div className="container">
+          <NavLink className="navbar-brand fw-bold" to="/">OctoFit Tracker</NavLink>
+          <nav className="navbar-nav flex-row flex-wrap gap-2" aria-label="Main navigation">
+            {links.map(([path, label]) => (
+              <NavLink
+                className={({ isActive }) => `nav-link px-2 ${isActive ? 'active' : ''}`}
+                key={path}
+                to={path}
+              >
+                {label}
+              </NavLink>
+            ))}
+          </nav>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      </header>
+      <main className="container py-4">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/activities" element={<Activities />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/workouts" element={<Workouts />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 
